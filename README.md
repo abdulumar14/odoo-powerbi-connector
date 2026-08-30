@@ -33,3 +33,6 @@ token authentication, live and scheduled sync, and period filtering.
 | Vendors | /powerbi/data/vendors | Scheduled |
 | Employees | /powerbi/data/employees | Scheduled |
 <img width="1919" height="942" alt="screenshot1" src="https://github.com/user-attachments/assets/75102a0b-74e3-46e4-b987-d90114ea1ed9" />
+<img width="1908" height="888" alt="image" src="https://github.com/user-attachments/assets/8f5baba8-e50c-4de0-b2e2-c59f3720c558" />
+<img width="1919" height="940" alt="image" src="https://github.com/user-attachments/assets/35935cc9-4fba-4284-aed6-f81e93605a58" />
+
