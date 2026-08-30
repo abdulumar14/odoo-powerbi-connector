@@ -32,3 +32,4 @@ token authentication, live and scheduled sync, and period filtering.
 | Analytic Lines | /powerbi/data/analytic_lines | Scheduled |
 | Vendors | /powerbi/data/vendors | Scheduled |
 | Employees | /powerbi/data/employees | Scheduled |
+<img width="1919" height="942" alt="screenshot1" src="https://github.com/user-attachments/assets/75102a0b-74e3-46e4-b987-d90114ea1ed9" />
