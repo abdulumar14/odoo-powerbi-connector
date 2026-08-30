@@ -1,0 +1,74 @@
+<section class="oe_container">
+
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan">Power BI Connector for Odoo 18</h2>
+        <h3 class="oe_slogan">Connect your Odoo data to Microsoft Power BI in minutes</h3>
+    </div>
+
+    <div class="oe_row oe_spaced">
+        <div class="oe_span6">
+            <h3>🔒 Secure Token Authentication</h3>
+            <p>Every Power BI request is authenticated with a secret token 
+            you generate from Odoo Settings. No username/password exposed.</p>
+        </div>
+        <div class="oe_span6">
+            <h3>⚡ Live & Scheduled Sync</h3>
+            <p>Choose per dataset — live mode queries Odoo in real-time, 
+            scheduled mode caches data for fast Power BI refresh.</p>
+        </div>
+    </div>
+
+    <div class="oe_row oe_spaced">
+        <div class="oe_span6">
+            <h3>🗂️ Dynamic Dataset Manager</h3>
+            <p>Add any Odoo model as a dataset from the UI — no coding needed.
+            Supports custom fields created with Odoo Studio.</p>
+        </div>
+        <div class="oe_span6">
+            <h3>📊 8 Pre-built Datasets</h3>
+            <p>Installed automatically: Purchase Orders, PO Lines, Vendor Bills,
+            Customer Invoices, Stock Moves, Projects, Analytic Lines, Vendors.</p>
+        </div>
+    </div>
+
+    <div class="oe_row oe_spaced">
+        <h3>Included Endpoints</h3>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Dataset</th>
+                    <th>URL</th>
+                    <th>Sync Mode</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Purchase Orders</td><td>/powerbi/data/purchase_orders</td><td>Live</td></tr>
+                <tr><td>PO Lines</td><td>/powerbi/data/purchase_order_lines</td><td>Scheduled</td></tr>
+                <tr><td>Vendor Bills</td><td>/powerbi/data/vendor_bills</td><td>Live</td></tr>
+                <tr><td>Customer Invoices</td><td>/powerbi/data/customer_invoices</td><td>Live</td></tr>
+                <tr><td>Stock Moves</td><td>/powerbi/data/stock_moves</td><td>Scheduled</td></tr>
+                <tr><td>Projects</td><td>/powerbi/data/projects</td><td>Live</td></tr>
+                <tr><td>Analytic Lines</td><td>/powerbi/data/analytic_lines</td><td>Scheduled</td></tr>
+                <tr><td>Vendors</td><td>/powerbi/data/vendors</td><td>Scheduled</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="oe_row oe_spaced">
+        <h3>Installation</h3>
+        <ol>
+            <li>Install the module from Apps</li>
+            <li>Go to Settings → Power BI → click Generate Token</li>
+            <li>In Power BI Desktop → Get Data → Web → Advanced</li>
+            <li>Enter URL: <code>https://yoursite.com/powerbi/data/purchase_orders</code></li>
+            <li>Add header: <code>X-PowerBI-Token</code> = your token</li>
+            <li>Click OK — your data loads instantly</li>
+        </ol>
+    </div>
+
+    <div class="oe_row oe_spaced">
+        <h3>Supported Versions</h3>
+        <p>✅ Odoo 18 Community &nbsp;&nbsp; ✅ Odoo 18 Enterprise</p>
+    </div>
+
+</section>

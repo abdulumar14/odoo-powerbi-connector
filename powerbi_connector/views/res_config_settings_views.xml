@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_config_settings_view_powerbi" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.powerbi</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base_setup.res_config_settings_view_form"/>
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+
+                <app string="Power BI" name="powerbi_connector"
+                     groups="base.group_system">
+
+                    <block title="API Authentication">
+                        <setting string="API Token"
+                                 help="Copy this token into Power BI as the X-PowerBI-Token header. Treat it like a password.">
+                            <div class="row mt8">
+                                <div class="col-12 col-md-8">
+                                    <field name="powerbi_api_token"
+                                           widget="CopyClipboardChar"
+                                           placeholder="No token yet — click Generate"/>
+                                </div>
+                                <div class="col-12 col-md-4 d-flex gap-2 mt4">
+                                    <button string="Generate Token"
+                                            name="action_generate_token"
+                                            type="object"
+                                            class="btn btn-primary"/>
+                                    <button string="Revoke"
+                                            name="action_revoke_token"
+                                            type="object"
+                                            class="btn btn-danger"
+                                            confirm="This will disconnect all Power BI connections. Are you sure?"/>
+                                </div>
+                            </div>
+                        </setting>
+
+                        <setting string="Your Odoo Base URL"
+                                 help="Prefix all endpoint URLs with this.">
+                            <field name="powerbi_base_url"
+                                   widget="CopyClipboardChar"
+                                   readonly="1"/>
+                        </setting>
+                    </block>
+
+                    <block title="Sync Settings">
+                        <setting string="Cache Duration (minutes)"
+                                 help="How long cached data is kept for scheduled datasets before the next refresh.">
+                            <field name="powerbi_cache_ttl"/>
+                        </setting>
+                    </block>
+
+                    <block title="Endpoints &amp; Period Filters">
+                        <setting help="Use these URLs in Power BI → Get Data → Web → Advanced">
+                            <div class="col-12">
+                                <table class="table table-sm table-bordered mt4">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Endpoint</th>
+                                            <th>URL</th>
+                                            <th>Notes</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Health Check</td>
+                                            <td><code>/powerbi/ping</code></td>
+                                            <td>No auth required</td>
+                                        </tr>
+                                        <tr>
+                                            <td>List Datasets</td>
+                                            <td><code>/powerbi/datasets</code></td>
+                                            <td>See all configured datasets</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Fetch Data</td>
+                                            <td><code>/powerbi/data/&lt;key&gt;</code></td>
+                                            <td>Fetch records for a dataset</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Trigger Sync</td>
+                                            <td><code>POST /powerbi/sync/&lt;key&gt;</code></td>
+                                            <td>Refresh a scheduled dataset cache</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <p class="mt8 mb4"><strong>Period Filter Examples:</strong></p>
+                                <table class="table table-sm table-bordered">
+                                    <thead class="table-light">
+                                        <tr><th>Parameter</th><th>Returns</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td><code>?period=today</code></td><td>Today only</td></tr>
+                                        <tr><td><code>?period=this_week</code></td><td>Mon–Sun this week</td></tr>
+                                        <tr><td><code>?period=this_month</code></td><td>Current calendar month</td></tr>
+                                        <tr><td><code>?period=last_month</code></td><td>Previous month</td></tr>
+                                        <tr><td><code>?period=this_quarter</code></td><td>Current Q1/Q2/Q3/Q4</td></tr>
+                                        <tr><td><code>?period=this_year</code></td><td>Jan 1 – Dec 31 this year</td></tr>
+                                        <tr><td><code>?period=last_year</code></td><td>Full previous year</td></tr>
+                                        <tr><td><code>?period=last_30_days</code></td><td>Rolling 30 days</td></tr>
+                                        <tr><td><code>?period=last_90_days</code></td><td>Rolling 90 days</td></tr>
+                                        <tr><td><code>?date_from=2026-01-01&amp;date_to=2026-06-30</code></td><td>Custom range</td></tr>
+                                    </tbody>
+                                </table>
+
+                                <p class="text-muted mt4">
+                                    Pagination: <code>?limit=1000&amp;offset=0</code>
+                                </p>
+                            </div>
+                        </setting>
+                    </block>
+
+                </app>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

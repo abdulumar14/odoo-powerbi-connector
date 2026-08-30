@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ── LIST VIEW ──────────────────────────────────────────────────── -->
+    <record id="powerbi_dataset_view_list" model="ir.ui.view">
+        <field name="name">powerbi.dataset.list</field>
+        <field name="model">powerbi.dataset</field>
+        <field name="arch" type="xml">
+            <list string="Power BI Datasets" decoration-muted="not active">
+                <field name="name"/>
+                <field name="endpoint_key"/>
+                <field name="odoo_model"/>
+                <field name="date_field" optional="show"/>
+                <field name="sync_mode"
+                       decoration-success="sync_mode == 'live'"
+                       decoration-info="sync_mode == 'scheduled'"
+                       widget="badge"/>
+                <field name="last_sync" optional="show"/>
+                <field name="record_count"
+                       string="Cached Records"
+                       optional="show"/>
+                <field name="active" widget="toggle_button"/>
+                <button name="action_sync_now"
+                        string="Sync Now"
+                        type="object"
+                        icon="fa-refresh"
+                        invisible="sync_mode != 'scheduled'"
+                        title="Refresh cached data now"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ── FORM VIEW ──────────────────────────────────────────────────── -->
+    <record id="powerbi_dataset_view_form" model="ir.ui.view">
+        <field name="name">powerbi.dataset.form</field>
+        <field name="model">powerbi.dataset</field>
+        <field name="arch" type="xml">
+            <form string="Power BI Dataset">
+                <header>
+                    <button name="action_sync_now"
+                            string="Sync Cache Now"
+                            type="object"
+                            class="btn-primary"
+                            invisible="sync_mode != 'scheduled'"/>
+                    <field name="active" widget="boolean_toggle"
+                           options="{'terminology': 'archive'}"/>
+                </header>
+
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Dataset Name"/>
+                        </h1>
+                    </div>
+
+                    <group>
+                        <group string="Configuration">
+                            <field name="endpoint_key"
+                                   help="URL slug: /powerbi/data/&lt;this_value&gt;"/>
+                            <field name="odoo_model"
+                                   help="Technical model name, e.g. purchase.order"/>
+                            <field name="sync_mode" widget="radio"/>
+                        </group>
+
+                        <group string="Cache Status"
+                               invisible="sync_mode != 'scheduled'">
+                            <field name="last_sync" readonly="1"/>
+                            <field name="record_count" readonly="1"
+                                   string="Records in Cache"/>
+                        </group>
+                    </group>
+
+                    <group string="Fields to Export">
+                        <field name="fields_to_export"
+                               nolabel="1"
+                               widget="text"
+                               placeholder="id, name, partner_id, date_order, amount_total, state"
+                               help="Comma-separated technical field names. Find field names in Settings → Technical → Models."/>
+                    </group>
+
+                    <group string="Domain Filter">
+                        <field name="domain_filter"
+                               nolabel="1"
+                               widget="text"
+                               placeholder='[["state", "in", ["purchase", "done"]]]'
+                               help='JSON domain. Leave [] to fetch all records. Example: [["state","=","posted"]]'/>
+                    </group>
+
+                    <group string="Date Filtering">
+                        <field name="date_field"
+                               help="Field used when Power BI passes ?period= or ?date_from= / ?date_to= params."/>
+                        <div class="col-12">
+                            <p class="text-muted mb0">
+                                Common values by model:
+                                <code>purchase.order</code> → <b>date_order</b> |
+                                <code>account.move</code> → <b>invoice_date</b> |
+                                <code>stock.move</code> → <b>date</b> |
+                                <code>account.analytic.line</code> → <b>date</b> |
+                                <code>project.project</code> → <b>date_start</b> |
+                                <code>hr.employee</code> → <b>create_date</b>
+                            </p>
+                            <p class="text-muted mt4">
+                                Period values: <code>today</code> · <code>this_week</code> ·
+                                <code>last_week</code> · <code>this_month</code> ·
+                                <code>last_month</code> · <code>this_quarter</code> ·
+                                <code>last_quarter</code> · <code>this_year</code> ·
+                                <code>last_year</code> · <code>last_7_days</code> ·
+                                <code>last_30_days</code> · <code>last_90_days</code> ·
+                                <code>last_365_days</code>
+                            </p>
+                        </div>
+                    </group>
+
+                    <notebook invisible="sync_mode != 'scheduled'">
+                        <page string="Cached Data Preview">
+                            <div class="alert alert-info" role="alert">
+                                <strong>Scheduled Mode:</strong>
+                                Data is cached in the database and served to Power BI from cache.
+                                Click "Sync Cache Now" to refresh immediately.
+                                The cron job refreshes all scheduled datasets automatically.
+                            </div>
+                            <field name="cached_data"
+                                   nolabel="1"
+                                   readonly="1"
+                                   widget="text"
+                                   placeholder="No cache yet. Click Sync Cache Now."/>
+                        </page>
+                    </notebook>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ── ACTION ─────────────────────────────────────────────────────── -->
+    <record id="powerbi_dataset_action" model="ir.actions.act_window">
+        <field name="name">Power BI Datasets</field>
+        <field name="res_model">powerbi.dataset</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No datasets configured yet!
+            </p>
+            <p>
+                Create a dataset to expose Odoo data to Power BI.
+                Each dataset maps to a URL: <code>/powerbi/data/your_key</code>
+            </p>
+        </field>
+    </record>
+
+    <!-- ── MENU ───────────────────────────────────────────────────────── -->
+    <menuitem id="menu_powerbi_root"
+              name="Power BI"
+              sequence="90"
+              groups="base.group_system"
+              web_icon="powerbi_connector,static/description/icon.png"/>
+
+    <menuitem id="menu_powerbi_datasets"
+              name="Datasets"
+              parent="menu_powerbi_root"
+              action="powerbi_dataset_action"
+              sequence="10"/>
+
+    <menuitem id="menu_powerbi_settings"
+              name="Settings"
+              parent="menu_powerbi_root"
+              action="base_setup.action_general_configuration"
+              sequence="20"/>
+
+</odoo>
