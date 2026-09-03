@@ -153,7 +153,7 @@
               name="Power BI"
               sequence="90"
               groups="base.group_system"
-              web_icon="powerbi_connector,static/description/icon.png"/>
+              web_icon="bi_connector,static/description/icon.png"/>
 
     <menuitem id="menu_powerbi_datasets"
               name="Datasets"

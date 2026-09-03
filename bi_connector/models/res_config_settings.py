@@ -17,7 +17,7 @@ class ResConfigSettings(models.TransientModel):
 
     powerbi_api_token = fields.Char(
         string='API Token',
-        config_parameter='powerbi_connector.api_token',
+        config_parameter='bi_connector.api_token',
         readonly=True,
         help='Secret token Power BI uses to authenticate. Never share publicly.',
     )
@@ -30,7 +30,7 @@ class ResConfigSettings(models.TransientModel):
 
     powerbi_cache_ttl = fields.Integer(
         string='Cache Duration (minutes)',
-        config_parameter='powerbi_connector.cache_ttl',
+        config_parameter='bi_connector.cache_ttl',
         default=60,
         help='How long cached data is kept before the next scheduled sync re-fetches it.',
     )
@@ -45,7 +45,7 @@ class ResConfigSettings(models.TransientModel):
         """Generate a cryptographically secure random token (256-bit entropy)."""
         token = secrets.token_hex(32)
         self.env['ir.config_parameter'].sudo().set_param(
-            'powerbi_connector.api_token', token
+            'bi_connector.api_token', token
         )
         return {
             'type': 'ir.actions.client',
@@ -61,7 +61,7 @@ class ResConfigSettings(models.TransientModel):
     def action_revoke_token(self):
         """Revoke the current token. All Power BI connections will fail until a new one is generated."""
         self.env['ir.config_parameter'].sudo().set_param(
-            'powerbi_connector.api_token', ''
+            'bi_connector.api_token', ''
         )
         return {
             'type': 'ir.actions.client',

@@ -9,7 +9,7 @@
         <field name="arch" type="xml">
             <xpath expr="//form" position="inside">
 
-                <app string="Power BI" name="powerbi_connector"
+                <app string="Power BI" name="bi_connector"
                      groups="base.group_system">
 
                     <block title="API Authentication">

@@ -93,7 +93,7 @@ class PowerBIController(http.Controller):
 
     def _get_token(self):
         return request.env['ir.config_parameter'].sudo().get_param(
-            'powerbi_connector.api_token', ''
+            'bi_connector.api_token', ''
         )
 
     def _authenticate(self):

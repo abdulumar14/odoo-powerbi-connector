@@ -155,7 +155,7 @@ class PowerBIDataset(models.Model):
                 domain=self.get_domain(),
                 fields=self.get_fields_list(),
             )
-            from odoo.addons.powerbi_connector.controllers.main import PowerBIController
+            from odoo.addons.bi_connector.controllers.main import PowerBIController
             cleaned = PowerBIController._clean_static(records)
             self.write({
                 'cached_data': json.dumps(cleaned, default=str),
